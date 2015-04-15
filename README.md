@@ -9,6 +9,7 @@ TODO: Delete this and the text above, and describe your gem
 Add this line to your application's Gemfile:
 
 ```ruby
+gem 'ruby-hmac', github: 'mumaoxi/yeepay'
 gem 'yeepay'
 ```
 
@@ -20,9 +21,67 @@ Or install it yourself as:
 
     $ gem install yeepay
 
-## Usage
+## Configuration
 
-TODO: Write usage instructions here
+```ruby
+Yeepay.p1_mer_id = 'YOUR_MER_ID' #商户编号
+Yeepay.merchant_key = 'YOUR_MERCHANT_KEY' #商户密钥
+
+#Yeepay.debug_mode = true # Enable parameter check. Default is true.
+```
+
+
+## Service
+
+### 充值卡支付接口
+
+#### Name
+
+```ruby
+create_trade
+```
+
+#### Definition
+
+```ruby
+Yeepay::Service::Card.create_trade({OPTIONS})
+```
+
+#### Example
+```ruby
+ options = {
+        out_trade_no: DateTime.now.strftime('%Y%m%d%H%M%S')+Random.rand(1000).to_s,
+        total_fee: 150,
+        verify_fee: true,
+        notify_url: 'http://example.com/pays/yeepay_notify',
+        cards: [
+            {amt: 50,
+             no: '123456',
+             pwd: '654321'
+            },
+            {amt: 100,
+             no: '123',
+             pwd: '654'
+            }
+        ],
+        frp_id: 'SZX'
+
+    }
+    Yeepay::Service::Card.create_trade(options)
+```
+
+#### Arguments
+
+| Key | Requirement | Description |
+| --- | ----------- | ----------- |
+| out_trade_no | required | Order id in your application. |
+| total_fee | required | Order item's price. |
+| verify_fee | required | whether check price between cards and order. |
+| notify_url | required | Yeepay asyn notify url. |
+| frp_id    | required | Pay channel id |
+
+This is not a complete list of arguments, please read official document: http://download.alipay.com/public/api/base/alipayescow.zip .
+
 
 ## Development
 

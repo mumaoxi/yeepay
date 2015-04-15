@@ -1,3 +1,6 @@
+require 'cgi'
+require 'open-uri'
+require 'hmac-md5'
 require 'yeepay/version'
 require 'yeepay/service'
 require 'yeepay/service/card'

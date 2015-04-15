@@ -1,7 +1,3 @@
-require 'cgi'
-require 'open-uri'
-require 'hmac-md5'
-
 module Yeepay
   module Service
     GATEWAY_URL = 'https://www.yeepay.com/app-merchant-proxy/command.action'
