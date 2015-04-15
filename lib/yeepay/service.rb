@@ -30,8 +30,8 @@ module Yeepay
       def self.card_fee_ok?(options={})
         if options[:verify_fee]
           card_total_fee = options[:cards].collect { |card| card[:amt] }.inject(:+)
-          warn("\ncard_total_fee:#{card_total_fee},order_total_fee:#{options[:total_fee]}")
-          unless options[:total_fee] == card_total_fee
+          warn("\ncard_total_fee:#{card_total_fee.to_f},order_total_fee:#{options[:total_fee].to_f}")
+          unless options[:total_fee].to_f == card_total_fee.to_f
             return false
           end
         end
