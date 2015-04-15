@@ -71,7 +71,7 @@ Yeepay::Service::Card.create_trade(options)
 # => '{:r0_Cmd=>"ChargeCardDirect", :r1_Code=>"1", :r6_Order=>"20150415150818837", :rq_ReturnMsg=>"提交成功!", :hmac=>"ba06a390eb8f487d84282da5fb90b862"}'
 ```
 
-#### Arguments
+#### Options
 
 | Key | Requirement | Description |
 | --- | ----------- | ----------- |
