@@ -12,6 +12,7 @@ module Yeepay
 
       #提交支付返回的错误代码
       SUBMIT_ERROR_CODES = {
+          -100 => '卡面额与订单金额不符',
           -1 => '签名较验失败或未知错误',
           1 => '提交成功!',
           2 => '卡密成功处理过或者提交卡号过于频繁',
@@ -25,6 +26,17 @@ module Yeepay
           8002 => '卡号密码为空或者数量不相等'
       }
 
+      #校验卡的支付金额
+      def self.card_fee_ok?(options={})
+        if options[:verify_fee]
+          card_total_fee = options[:cards].collect { |card| card[:amt] }.inject(:+)
+          warn("\ncard_total_fee:#{card_total_fee},order_total_fee:#{options[:total_fee]}")
+          unless options[:total_fee] == card_total_fee
+            return false
+          end
+        end
+        true
+      end
 
       #组合发起支付请求的必要参数
       def self.gen_params(options={})
@@ -59,18 +71,21 @@ module Yeepay
                 :pb_BalanceAmt,
                 :pc_BalanceAct,
                 :r2_TrxId]
-        options.select { |key,value|
+        options.select { |key, value|
           keys.include?(key)
         }
       end
 
       #处理支付请求结果
-      def self.receive_response(res)
+      def self.receive_response(options,res)
         res_data = {}
         res.to_s.split(/\n/).map { |item|
           key_value = item.to_s.split(/=/)
           res_data[key_value[0].to_s.to_sym] = key_value[1]
         }
+        unless card_fee_ok?(options)
+          res_data[:r1_Code] = -100
+        end
         res_data[:rq_ReturnMsg] = SUBMIT_ERROR_CODES[res_data[:r1_Code].to_s.to_i]
         res_data
       end

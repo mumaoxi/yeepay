@@ -18,7 +18,7 @@ module Yeepay
         end
 
         #处理支付结果
-        res_data = receive_response(res)
+        res_data = receive_response(options, res)
         warn("\nres_data #{res_data}")
         res_data
       end
