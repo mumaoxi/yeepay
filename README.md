@@ -9,8 +9,8 @@ TODO: Delete this and the text above, and describe your gem
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'ruby-hmac', github: 'mumaoxi/yeepay'
-gem 'yeepay'
+gem 'ruby-hmac'
+gem 'yeepay', github: 'mumaoxi/yeepay'
 ```
 
 And then execute:
@@ -49,25 +49,26 @@ Yeepay::Service::Card.create_trade({OPTIONS})
 
 #### Example
 ```ruby
- options = {
-        out_trade_no: DateTime.now.strftime('%Y%m%d%H%M%S')+Random.rand(1000).to_s,
-        total_fee: 150,
-        verify_fee: true,
-        notify_url: 'http://example.com/pays/yeepay_notify',
-        cards: [
-            {amt: 50,
-             no: '123456',
-             pwd: '654321'
-            },
-            {amt: 100,
-             no: '123',
-             pwd: '654'
-            }
-        ],
-        frp_id: 'SZX'
+options = {
+    out_trade_no: DateTime.now.strftime('%Y%m%d%H%M%S')+Random.rand(1000).to_s,
+    total_fee: 150,
+    verify_fee: true,
+    notify_url: 'http://example.com/pays/yeepay_notify',
+    cards: [
+        {amt: 50,
+         no: '123456',
+         pwd: '654321'
+        },
+        {amt: 100,
+         no: '123',
+         pwd: '654'
+        }
+    ],
+    frp_id: 'SZX'
 
-    }
-    Yeepay::Service::Card.create_trade(options)
+}
+Yeepay::Service::Card.create_trade(options)
+# => '{:r0_Cmd=>"ChargeCardDirect", :r1_Code=>"1", :r6_Order=>"20150415150818837", :rq_ReturnMsg=>"提交成功!", :hmac=>"ba06a390eb8f487d84282da5fb90b862"}'
 ```
 
 #### Arguments
@@ -80,8 +81,44 @@ Yeepay::Service::Card.create_trade({OPTIONS})
 | notify_url | required | Yeepay asyn notify url. |
 | frp_id    | required | Pay channel id |
 
-This is not a complete list of arguments, please read official document: http://download.alipay.com/public/api/base/alipayescow.zip .
+This is not a complete list of arguments, please read official document: http://www.yeepay.com .
 
+
+### 充值卡支付通知接口
+
+#### Name
+
+```ruby
+verify?
+```
+
+#### Definition
+```ruby
+Yeepay::Service::Card.verify?({OPTIONS})
+```
+
+### Example
+```ruby
+options = {
+        r0_Cmd: 'ChargeCardDirect',
+        r1_Code: '2',
+        p1_MerId: '10012367775',
+        p2_Order: '20150415123733472',
+        p3_Amt: '0.0',
+        p4_FrpId: 'SZX',
+        p5_CardNo: '123,123456',
+        p6_confirmAmount: '0.0,0.0',
+        p7_realAmount: '0.0,0.0',
+        p8_cardStatus: '7,7',
+        p9_MP: '',
+        pb_BalanceAmt: '',
+        pc_BalanceAct: '',
+        r2_TrxId: '',
+        hmac: '654b58ece9b4377eaad4c1ebb013a668'
+    }
+Yeepay::Service::Card.verify?(options)
+# => true
+```
 
 ## Development
 
