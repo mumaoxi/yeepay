@@ -74,8 +74,7 @@ module Yeepay
          :p8_cardStatus,
          :p9_MP,
          :pb_BalanceAmt,
-         :pc_BalanceAct,
-         :r2_TrxId
+         :pc_BalanceAct
         ].map { |key| memo[key] = options[key] }
         memo
       end
