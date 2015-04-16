@@ -8,6 +8,10 @@ module Yeepay
       HMAC::MD5.hexdigest(Yeepay.merchant_key, options.values.join(''))
     end
 
+    def self.string_key2_sym(options={})
+      options.inject({}) { |memo, (k, v)| memo[k.to_sym] = v; memo }
+    end
+
     module Card
 
       #提交支付返回的错误代码
@@ -77,7 +81,7 @@ module Yeepay
       end
 
       #处理支付请求结果
-      def self.receive_response(options,res)
+      def self.receive_response(options, res)
         res_data = {}
         res.to_s.split(/\n/).map { |item|
           key_value = item.to_s.split(/=/)

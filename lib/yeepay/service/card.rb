@@ -3,6 +3,7 @@ module Yeepay
     module Card
       #发起支付交易
       def self.create_trade(options = {})
+        options = Yeepay::Service.string_key2_sym(options)
         #组合支付请求参数
         trade_data = gen_params(options)
         trade_data[:hmac] = Yeepay::Service.hmac_md5_sign(trade_data)
@@ -25,6 +26,7 @@ module Yeepay
 
       #校验支付签名
       def self.verify?(options={})
+        options = Yeepay::Service.string_key2_sym(options)
         notify_params = res_verifying_params(options)
         warn("\nnotfy_params  #{notify_params}")
         notify_hmac = Yeepay::Service.hmac_md5_sign(notify_params)
