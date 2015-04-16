@@ -61,23 +61,23 @@ module Yeepay
 
       #获取返回的需要验证的参数
       def self.res_verifying_params(options={})
-        keys = [:r0_Cmd,
-                :r1_Code,
-                :p1_MerId,
-                :p2_Order,
-                :p3_Amt,
-                :p4_FrpId,
-                :p5_CardNo,
-                :p6_confirmAmount,
-                :p7_realAmount,
-                :p8_cardStatus,
-                :p9_MP,
-                :pb_BalanceAmt,
-                :pc_BalanceAct,
-                :r2_TrxId]
-        options.select { |key, value|
-          keys.include?(key)
-        }
+        memo = {}
+        [:r0_Cmd,
+         :r1_Code,
+         :p1_MerId,
+         :p2_Order,
+         :p3_Amt,
+         :p4_FrpId,
+         :p5_CardNo,
+         :p6_confirmAmount,
+         :p7_realAmount,
+         :p8_cardStatus,
+         :p9_MP,
+         :pb_BalanceAmt,
+         :pc_BalanceAct,
+         :r2_TrxId
+        ].map { |key| memo[key] = options[key] }
+        memo
       end
 
       #处理支付请求结果
