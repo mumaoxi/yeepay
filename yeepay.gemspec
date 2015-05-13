@@ -12,6 +12,7 @@ Gem::Specification.new do |spec|
   spec.summary       = %q{易宝支付}
   spec.description   = %q{易宝支付}
   spec.homepage      = "https://github.com/mumaoxi/yeepay"
+  spec.licenses      = ['MIT']
 
   # Prevent pushing this gem to RubyGems.org by setting 'allowed_push_host', or
   # delete this section to allow pushing this gem to any host.
